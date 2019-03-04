@@ -1,6 +1,6 @@
 # GitHub Wiki Auditor
 
-Read the full blog post "Auditing GitHub Repo Wikis for Fun and Profit" [here](https://********/).
+Read the full blog post "Auditing GitHub Repo Wikis for Fun and Profit" [here](https://www.smeegesec.com/2019/03/auditing-github-repo-wikis-for-fun-and.html).
 
 ### Description
 
