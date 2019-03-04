@@ -14,7 +14,7 @@ Another aspect to the impact of this issue is reputational damage. It's very eas
 
 ### The Fix
 
-Unfortunately for large companies with a lot of public repos, there doesn't appear to be an account-level setting which can manage all repository wiki settings. This means they have to control this on a per-repo basis with the "Restrict editing to collaborators only" setting (see, [Changing access permissions for wikis](https://help.github.com/en/articles/changing-access-permissions-for-wikis). 
+Unfortunately for large companies with a lot of public repos, there doesn't appear to be an account-level setting which can manage all repository wiki settings. This means they have to control this on a per-repo basis with the "Restrict editing to collaborators only" setting (see, [Changing access permissions for wikis](https://help.github.com/en/articles/changing-access-permissions-for-wikis)). 
 
 Other solutions could include:
 * [Disable the wiki altogether](https://help.github.com/en/articles/disabling-wikis), if you don't need it.
@@ -28,5 +28,7 @@ I wrote github-wiki-auditor.py which iterates over a list of GitHub accounts, an
 
 Usage:
 ```
-github-wiki-auditor.py [-h] --accounts_file ACCOUNTS_FILE [--username USERNAME] [--password PASSWORD] [--output_file OUTPUT_FILE]
+github-wiki-auditor.py [-h] --accounts_file ACCOUNTS_FILE [--output_file OUTPUT_FILE] [--username USERNAME]
+[--password PASSWORD]
+
 ```
