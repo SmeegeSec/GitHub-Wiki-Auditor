@@ -4,6 +4,8 @@ Read the full blog post "Auditing GitHub Repo Wikis for Fun and Profit" [here](h
 
 ### Description
 
+Note: This tool was written using Python2. I've created a separate branch for a Python3 version.
+
 The issue here is that most developers and engineers at large companies don't know this somewhat hidden setting exists. This results in wiki pages which anyone with a GitHub account can modify. So is this really a security issue? Yes...if allowing anyone to edit the wiki pages was **unintentional**. So why does this occur? I've typically found one of the main causes is engineers open sourcing a project, changing the repository from private to public. The enabled wiki setting stays the same, allowing anyone, not just collaborators, to edit the wiki page. It's also worth noting it's hard for repo owners to know when changes are made to their wiki pages because they don't get notified when it occurs and notifications can't be inherently configured.
 
 ### The Impact
