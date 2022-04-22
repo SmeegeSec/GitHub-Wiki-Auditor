@@ -21,19 +21,19 @@ def main():
   if args.username:
     gitHubUsername = args.username
   else:
-    gitHubUsername = "YOUR HARDCODED USERNAME HERE"
+    gitHubUsername = "HARDCODED-USERNAME"
 
   if args.password:
     gitHubPassword = args.password
   else:
-    gitHubPassword = "YOUR HARDCODED PASSWORD HERE"
+    gitHubPassword = "HARDCODED-PASSWORD"
 
   accountsFile = args.accounts_file
 
   if os.path.isfile(accountsFile):
     editableWikiList = list()
   else:
-    print "[*] Exiting - {0} is not a valid accounts input file.".format(accountsFile)
+    print ("[*] Exiting - {0} is not a valid accounts input file.".format(accountsFile))
     sys.exit(1)
   
   if args.output_file:
@@ -55,11 +55,11 @@ def main():
       loginData["password"] = gitHubPassword
       loginResponse = gitHubSession.post("https://github.com/session", data=loginData)
       if "Incorrect username or password" in loginResponse.text:
-        print "Your GitHub username/password is incorrect!"
+        print ("Your GitHub username/password is incorrect!")
         sys.exit(1)
     except Exception as sessionError:
-      print "[*] Exiting - there was an issue authenticating to GitHub using the provided credentials\n"
-      print "[*] {0}".format(sessionError)
+      print ("[*] Exiting - there was an issue authenticating to GitHub using the provided credentials\n")
+      print ("[*] {0}".format(sessionError))
       sys.exit(1)
 
     accountCount = 0
@@ -69,9 +69,9 @@ def main():
     rateLimit429 = dict()
     
     if accountTotal > rateLimit:
-      print "\nWARNING - GitHub limits the number of requests you can make within a period of time. Your current limit is {0} requests but you are scanning {1} accounts.".format(rateLimit, accountTotal)
+      print ("\nWARNING - GitHub limits the number of requests you can make within a period of time. Your current limit is {0} requests but you are scanning {1} accounts.".format(rateLimit, accountTotal))
     else:
-      print "\nYour current GitHub request rate limit (number of accounts you can check): {0}".format(rateLimit)
+      print ("\nYour current GitHub request rate limit (number of accounts you can check): {0}".format(rateLimit))
 
     # Iterate through every account, and all repos in the account which have a wiki enabled.
     # A request to create a new wiki page will be made but no actual pages will be created.
@@ -95,15 +95,15 @@ def main():
         rateLimit = json.loads(rateLimitRequest.content)["rate"]["remaining"]
         
         if rateLimit < 2:
-          print "\nYour current GitHub request rate limit (number of accounts you can check): {0}".format(rateLimit)
-          print "Please wait until GitHub allows you to continue making requests."
+          print ("\nYour current GitHub request rate limit (number of accounts you can check): {0}".format(rateLimit))
+          print ("Please wait until GitHub allows you to continue making requests.")
           sys.exit(1)
         else:
-          print "\nWARNING - Unexpected Error! Potential rate limit reached!\n"
-          print "{0}".format(e)
+          print ("\nWARNING - Unexpected Error! Potential rate limit reached!\n")
+          print ("{0}".format(e))
       
       repoTotal = len(repoJSON)
-      print "\n[*] Found {0} repositories for account {1}\n".format(repoTotal, account)
+      print ("\n[*] Found {0} repositories for account {1}\n".format(repoTotal, account))
 
       if outputFile:
         outputFile.write("\n[*] Found {0} repositories for account {1}\n\n".format(repoTotal, account))
@@ -113,24 +113,24 @@ def main():
           repoFullName = repoJSON[repoNum]["full_name"]
         except Exception as error:
           if rateLimit == 0:
-            print "\nYour current GitHub request rate limit (number of accounts you can check): {0}".format(rateLimit)
-            print "Please wait until GitHub allows you to continue making requests.\n"
+            print ("\nYour current GitHub request rate limit (number of accounts you can check): {0}".format(rateLimit))
+            print ("Please wait until GitHub allows you to continue making requests.\n")
             sys.exit(1)
           else:
             if rateLimit429:
-              print "\nThe following {0} accounts and repos were blocked by a rate limit (429 response) and should be checked manually:".format(len(rateLimit429))
+              print ("\nThe following {0} accounts and repos were blocked by a rate limit (429 response) and should be checked manually:".format(len(rateLimit429)))
               for uncheckedAccount in rateLimit429.iterkeys():
-                print uncheckedAccount
+                print (uncheckedAccount)
 
               if outputFile:
                 outputFile.write("\nThe following {0} accounts and repos were blocked by a rate limit (429 response) and should be checked manually:\n".format(len(rateLimit429)))
                 for uncheckedAccount in rateLimit429.iterkeys():
                   outputFile.write("{0}\n".format(uncheckedAccount))
 
-            print "\nWARNING - Unexpected Error! Potential rate limit reached!\n{0}".format(error)
+            print ("\nWARNING - Unexpected Error! Potential rate limit reached!\n{0}".format(error))
             sys.exit(1)
           
-        print "[*][Account {0}/{1}][Repo {2}/{3}] SCANNING wiki for {4}".format(accountCount, accountTotal, repoNum+1, repoTotal, repoFullName)
+        print ("[*][Account {0}/{1}][Repo {2}/{3}] SCANNING wiki for {4}".format(accountCount, accountTotal, repoNum+1, repoTotal, repoFullName))
 
         if outputFile:
           outputFile.write("[*][Account {0}/{1}][Repo {2}/{3}] SCANNING wiki for {4}\n".format(accountCount, accountTotal, repoNum+1, repoTotal, repoFullName))
@@ -141,7 +141,7 @@ def main():
           # Archived repositories by the owner become read-only and respond with a 403
           # Occassionally a 429 Too Many Requests response will be returned and could cause inaccurate results
           if gitHubWikiResponse.status_code == 429:
-            print "\n[*] 429 Too Many Requests response received - sleeping 15 seconds.\n"
+            print ("\n[*] 429 Too Many Requests response received - sleeping 15 seconds.\n")
             if outputFile:
               outputFile.write("\n[*] 429 Too Many Requests response received - sleeping 15 seconds.\n")
               
@@ -159,7 +159,7 @@ def main():
               
             if "Create New Page" in wikiTitle:
               editableWikiList.append(repoFullName)
-              print "\tWorld Editable Wiki Found! - {0}".format(repoFullName)
+              print ("\tWorld Editable Wiki Found! - {0}".format(repoFullName))
 
               if outputFile:
                 outputFile.write("\tWorld Editable Wiki Found! - {0}\n".format(repoFullName))
@@ -175,18 +175,18 @@ def main():
       for editableWiki in editableWikiList:
           outputFile.write("{0}\n".format(editableWiki))
 
-    print "\nThe following {0} accounts and repos were found to have a world-editable wiki:".format(editableWikiTotal)
+    print ("\nThe following {0} accounts and repos were found to have a world-editable wiki:".format(editableWikiTotal))
     editableWikiDict = dict()
 
     for editableWiki in editableWikiList:
-      print editableWiki
+      print (editableWiki)
     print
 
   # If accounts were not checked because they received a 429 Too Many Requests response they are listed here for the user to check manually.
   if rateLimit429:
-    print "\nThe following {0} accounts and repos were blocked by a rate limit (429 response) and should be checked manually:".format(len(rateLimit429))
+    print ("\nThe following {0} accounts and repos were blocked by a rate limit (429 response) and should be checked manually:".format(len(rateLimit429)))
     for uncheckedAccount in rateLimit429.iterkeys():
-      print uncheckedAccount
+      print (uncheckedAccount)
 
     if outputFile:
       outputFile.write("\nThe following {0} accounts and repos were blocked by a rate limit (429 response) and should be checked manually:\n".format(len(rateLimit429)))
